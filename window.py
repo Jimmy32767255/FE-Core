@@ -1,0 +1,85 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+实现高斯模糊透明效果的窗口
+"""
+
+from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QLabel, QPushButton
+from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtGui import QColor, QPainter, QBrush, QLinearGradient
+from custom_title_bar import CustomTitleBar # 恢复自定义标题栏导入
+from background_effect import BackgroundEffect
+from loguru import logger
+
+
+class BlurredWindow(QMainWindow):
+    """
+    带有高斯模糊透明效果的窗口
+    """
+    def __init__(self):
+        super().__init__()
+        self.old_pos = None  # CustomTitleBar 会使用这个属性
+        self.init_ui()
+        
+    def init_ui(self):
+        """
+        初始化UI界面
+        """
+        # 设置窗口属性
+        self.setWindowFlags(Qt.FramelessWindowHint)  # 无边框窗口
+        self.setAttribute(Qt.WA_TranslucentBackground, True)  # 启用透明背景
+        self.setFixedSize(800, 500)  # 固定窗口大小
+        
+        # 创建自定义标题栏
+        self.title_bar = CustomTitleBar(self)
+        self.title_bar.set_title("Demo")
+
+        # 创建中央部件
+        central_widget = QWidget(self)
+        self.setCentralWidget(central_widget)
+        
+        # 主布局 (用于中央部件)
+        main_v_layout = QVBoxLayout(central_widget)
+        main_v_layout.setContentsMargins(0, 0, 0, 0)
+        main_v_layout.setSpacing(0)
+        
+        main_v_layout.addWidget(self.title_bar)
+
+        # 内容区域部件
+        content_area = QWidget()
+        content_layout = QVBoxLayout(content_area)
+        content_layout.setContentsMargins(20, 20, 20, 20)
+        
+        # 添加标签到内容布局
+        version_label = QLabel("Test")
+        version_label.setStyleSheet("color: #333333; font-size: 24px; font-weight: bold;")
+        content_layout.addWidget(version_label, alignment=Qt.AlignBottom | Qt.AlignLeft)
+        
+        # 添加按钮到内容布局
+        start_button = QPushButton("Test")
+        start_button.setStyleSheet("""
+            QPushButton {
+                background-color: #8e44ad;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #9b59b6;
+            }
+        """)
+        content_layout.addWidget(start_button, alignment=Qt.AlignBottom | Qt.AlignRight)
+        
+        main_v_layout.addWidget(content_area)
+        
+        self.effect = BackgroundEffect(self) # 启用背景模糊效果
+        logger.info("窗口UI已恢复并初始化完成")
+        
+    def paintEvent(self, event):
+        """
+        绘制窗口背景 - 简化版
+        """
+        pass # 最小化 paintEvent 的影响
