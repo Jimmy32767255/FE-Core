@@ -5,7 +5,8 @@
 自定义窗口标题栏
 """
 
-from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLabel, QPushButton, QApplication
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLabel, QPushButton
+from loguru import logger
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon
 
@@ -23,7 +24,7 @@ class CustomTitleBar(QWidget):
         初始化UI界面
         """
         self.setFixedHeight(30)  # 设置标题栏高度
-        self.setStyleSheet("background-color: #f0f0f0;")  # 设置背景颜色
+        self.setStyleSheet("background-color: rgba(255, 255, 255, 0.01);")  # 设置背景颜色
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(5, 0, 5, 0) # 左，上，右，下
@@ -36,7 +37,7 @@ class CustomTitleBar(QWidget):
 
         # 窗口标题
         self.title_label = QLabel("", self)
-        self.title_label.setStyleSheet("color: #333333; font-size: 10pt; font-weight: bold;")
+        self.title_label.setStyleSheet("color: #FFFFFF; font-size: 10pt; font-weight: bold;")
         layout.addWidget(self.title_label, alignment=Qt.AlignCenter)
 
         layout.addStretch()
@@ -52,7 +53,7 @@ class CustomTitleBar(QWidget):
                 font-weight: bold;
             }
             QPushButton:hover {
-                background-color: #e0e0e0;
+                background-color: rgba(255, 255, 255, 0.01);
             }
         """)
         self.minimize_button.clicked.connect(self.minimize_window)
@@ -68,7 +69,7 @@ class CustomTitleBar(QWidget):
                 font-size: 10pt;
             }
             QPushButton:hover {
-                background-color: #e0e0e0;
+                background-color: rgba(255, 255, 255, 0.01);
             }
         """)
         self.maximize_button.clicked.connect(self.maximize_restore_window)
@@ -136,7 +137,9 @@ class CustomTitleBar(QWidget):
         """
         鼠标按下事件，用于实现窗口拖动
         """
-        if event.button() == Qt.LeftButton and self.parent_window:
+        # 只在标题栏区域响应拖动
+        title_bar_rect = self.rect()
+        if event.button() == Qt.LeftButton and self.parent_window and title_bar_rect.contains(event.pos()):
             self.parent_window.old_pos = event.globalPos()
 
     def mouseMoveEvent(self, event):

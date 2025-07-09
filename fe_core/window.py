@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QLabel, QPushButt
 from PyQt5.QtCore import Qt
 from .custom_title_bar import CustomTitleBar
 from .background_effect import BackgroundEffect
+from .blur_style import apply_blur_style, BLUR_STYLE
 from loguru import logger
 
 
@@ -29,6 +30,7 @@ class BlurredWindow(QMainWindow):
         self.setWindowFlags(Qt.FramelessWindowHint)  # 无边框窗口
         self.setAttribute(Qt.WA_TranslucentBackground, True)  # 启用透明背景
         self.setFixedSize(800, 500)  # 固定窗口大小
+        apply_blur_style(self) # 应用模糊样式
         
         # 创建自定义标题栏
         self.title_bar = CustomTitleBar(self)
@@ -52,14 +54,14 @@ class BlurredWindow(QMainWindow):
         
         # 添加标签到内容布局
         version_label = QLabel("Test")
-        version_label.setStyleSheet("color: #333333; font-size: 24px; font-weight: bold;")
+        version_label.setStyleSheet("color: #FFFFFF; font-size: 24px; font-weight: bold;")
         content_layout.addWidget(version_label, alignment=Qt.AlignBottom | Qt.AlignLeft)
         
         # 添加按钮到内容布局
         start_button = QPushButton("Test")
         start_button.setStyleSheet("""
             QPushButton {
-                background-color: #8e44ad;
+                background-color: rgba(255, 255, 255, 0.01);
                 color: white;
                 border: none;
                 border-radius: 4px;
@@ -67,7 +69,7 @@ class BlurredWindow(QMainWindow):
                 font-weight: bold;
             }
             QPushButton:hover {
-                background-color: #9b59b6;
+                background-color: rgba(255, 255, 255, 0.01);
             }
         """)
         content_layout.addWidget(start_button, alignment=Qt.AlignBottom | Qt.AlignRight)

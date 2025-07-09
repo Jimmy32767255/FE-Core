@@ -7,7 +7,8 @@
 
 import ctypes
 from ctypes import wintypes
-from PyQt5.QtWidgets import QWidget, QGraphicsBlurEffect
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QGraphicsBlurEffect
 from loguru import logger
 
 # Windows API definitions for blur
@@ -62,6 +63,7 @@ class BackgroundEffect:
             self.blur_effect_fallback = QGraphicsBlurEffect()
             self.blur_effect_fallback.setBlurRadius(blur_radius)
             self.widget.setGraphicsEffect(self.blur_effect_fallback)
+            self.widget.setStyleSheet("background-color: rgba(255, 255, 255, 0.01);")
             logger.info(f"已为部件 {widget.objectName() if widget.objectName() else type(widget).__name__} 应用了 QGraphicsBlurEffect (模糊半径: {blur_radius}) 作为备选方案。")
         
     def _try_apply_native_blur(self) -> bool:

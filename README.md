@@ -45,7 +45,9 @@ if __name__ == '__main__':
     # 示例：设置窗口图标 (需要提供一个有效的图标文件路径)
     # window.set_window_icon("path/to/your/icon.png")
 
-    time.sleep(10)
+    # 示例：应用自定义模糊样式
+    # from fe_core import apply_blur_style, BLUR_STYLE
+    # apply_blur_style(window, BLUR_STYLE)
 
     sys.exit(app.exec_())
 ```
