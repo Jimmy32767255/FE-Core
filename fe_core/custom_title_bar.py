@@ -29,15 +29,13 @@ class CustomTitleBar(QWidget):
         layout.setContentsMargins(5, 0, 5, 0) # 左，上，右，下
         layout.setSpacing(0)
 
-        # 窗口图标 (可选)
-        # icon_label = QLabel(self)
-        # icon_pixmap = QIcon(":/icons/app_icon.png").pixmap(QSize(16, 16))
-        # icon_label.setPixmap(icon_pixmap)
-        # layout.addWidget(icon_label)
-        # layout.addSpacing(5)
+        # 窗口图标
+        self.icon_label = QLabel(self)
+        layout.addWidget(self.icon_label)
+        layout.addSpacing(5)
 
         # 窗口标题
-        self.title_label = QLabel("Demo", self)
+        self.title_label = QLabel("", self)
         self.title_label.setStyleSheet("color: #333333; font-size: 10pt; font-weight: bold;")
         layout.addWidget(self.title_label, alignment=Qt.AlignCenter)
 
@@ -100,6 +98,14 @@ class CustomTitleBar(QWidget):
         """
         self.title_label.setText(title)
 
+    def set_icon(self, icon_path: str):
+        """
+        设置标题栏的图标。
+        :param icon_path: 图标文件的路径。
+        """
+        icon_pixmap = QIcon(icon_path).pixmap(QSize(16, 16))
+        self.icon_label.setPixmap(icon_pixmap)
+
     def minimize_window(self):
         """
         最小化窗口
@@ -148,18 +154,3 @@ class CustomTitleBar(QWidget):
         """
         if event.button() == Qt.LeftButton and self.parent_window:
             self.parent_window.old_pos = None
-
-if __name__ == '__main__':
-    import sys
-    app = QApplication(sys.argv)
-    # 为了测试，创建一个简单的主窗口
-    main_win = QWidget()
-    main_win.setWindowFlags(Qt.FramelessWindowHint)
-    main_win.resize(400, 50)
-    layout = QVBoxLayout(main_win)
-    layout.setContentsMargins(0,0,0,0)
-    title_bar = CustomTitleBar(main_win)
-    layout.addWidget(title_bar)
-    layout.addStretch()
-    main_win.show()
-    sys.exit(app.exec_())

@@ -1,4 +1,0 @@
-2025-05-15 12:30:11.355 | INFO     | __main__:main:34 - 应用程序启动
-2025-05-15 12:30:11.554 | INFO     | background_effect:_try_apply_native_blur:85 - 已成功为窗口 HWND 394666 应用原生 Windows BLURBEHIND 效果。
-2025-05-15 12:30:11.554 | INFO     | window:init_ui:79 - 窗口UI已恢复并初始化完成
-2025-05-15 12:30:19.068 | INFO     | __main__:main:41 - 应用程序退出，退出码: 0
