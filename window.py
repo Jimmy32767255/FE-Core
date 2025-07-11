@@ -112,3 +112,35 @@ class BlurredWindow(QMainWindow):
         绘制窗口背景 - 简化版
         """
         pass # 最小化 paintEvent 的影响
+        
+    def set_blur_radius(self, radius: int):
+        """
+        设置模糊效果半径
+        :param radius: 模糊半径 (仅当使用QGraphicsBlurEffect时有效)
+        """
+        self.effect.set_blur_radius(radius)
+        
+    def set_window_size(self, width: int, height: int):
+        """
+        设置窗口大小
+        :param width: 窗口宽度
+        :param height: 窗口高度
+        """
+        self.setFixedSize(width, height)
+        
+    def set_content_margins(self, left: int, top: int, right: int, bottom: int):
+        """
+        设置内容区域边距
+        :param left: 左边距
+        :param top: 上边距
+        :param right: 右边距
+        :param bottom: 下边距
+        """
+        self.centralWidget().layout().setContentsMargins(left, top, right, bottom)
+        
+    def set_window_opacity(self, opacity: float):
+        """
+        设置窗口透明度
+        :param opacity: 透明度值 (0.0-1.0)
+        """
+        self.setWindowOpacity(opacity)

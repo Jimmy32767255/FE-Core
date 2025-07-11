@@ -17,34 +17,35 @@ cd fe_core
 pip install .
 ```
 
-## 使用
-
-以下是一个简单的使用示例：
+## 使用方法
 
 ```python
-import sys
-from PyQt5.QtWidgets import QApplication
 from fe_core.window import BlurredWindow
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = BlurredWindow()
-    window.show()
+# 创建窗口
+window = BlurredWindow()
 
-    # 示例：设置窗口标题
-    window.set_window_title("测试窗口")
+# 设置窗口标题
+window.set_window_title("我的应用")
 
-    # 示例：禁用模糊效果
-    # window.set_blur_effect(False)
+# 设置窗口图标
+window.set_window_icon("path/to/icon.png")
 
-    # 示例：设置窗口图标 (需要提供一个有效的图标文件路径)
-    # window.set_window_icon("path/to/your/icon.png")
+# 设置窗口大小
+window.set_window_size(1024, 768)
 
-    # 示例：应用自定义模糊样式
-    # from fe_core import apply_blur_style, BLUR_STYLE
-    # apply_blur_style(window, BLUR_STYLE)
+# 设置内容边距
+window.set_content_margins(20, 20, 20, 20)
 
-    sys.exit(app.exec_())
+# 设置模糊效果
+window.set_blur_effect(True)  # 启用模糊效果
+window.set_blur_radius(30)    # 设置模糊半径
+
+# 设置窗口透明度
+window.set_window_opacity(0.95)
+
+# 显示窗口
+window.show()
 ```
 
 ## 许可证
