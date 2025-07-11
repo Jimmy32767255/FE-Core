@@ -8,16 +8,11 @@
 
 ## 安装
 
-你可以通过 pip 安装此库：
+从源代码安装：
 
 ```bash
-pip install fe-core
-```
-
-或者从源代码安装：
-
-```bash
-git clone https://github.com/yourusername/fe_core.git
+git clone https://github.com/Jimmy32767255/FE-Core.git
+ren FE-Core fe_core
 cd fe_core
 pip install .
 ```
