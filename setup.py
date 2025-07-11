@@ -5,8 +5,7 @@ setup(
     version='0.1.0',
     packages=find_packages(),
     install_requires=[
-        'loguru==0.7.2',
-        'PyQt5==5.15.10',
+        'PyQt5==5.15.10'
     ],
     author='Jimmy32767255',
     author_email='Jimmy32767255@outlook.com',

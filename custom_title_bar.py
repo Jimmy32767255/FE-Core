@@ -6,7 +6,6 @@
 """
 
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLabel, QPushButton
-from loguru import logger
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon
 
@@ -93,19 +92,25 @@ class CustomTitleBar(QWidget):
         self.close_button.clicked.connect(self.close_window)
         layout.addWidget(self.close_button)
 
-    def set_title(self, title):
+    def set_title(self, title: str) -> None:
         """
         设置窗口标题
+        :param title: 窗口标题
         """
         self.title_label.setText(title)
 
-    def set_icon(self, icon_path: str):
+    def set_icon(self, icon_path: str) -> bool:
         """
         设置标题栏的图标。
         :param icon_path: 图标文件的路径。
+        :return: 操作是否成功
         """
-        icon_pixmap = QIcon(icon_path).pixmap(QSize(16, 16))
-        self.icon_label.setPixmap(icon_pixmap)
+        try:
+            icon_pixmap = QIcon(icon_path).pixmap(QSize(16, 16))
+            self.icon_label.setPixmap(icon_pixmap)
+            return True
+        except Exception as e:
+            return False
 
     def minimize_window(self):
         """

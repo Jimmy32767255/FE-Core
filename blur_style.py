@@ -6,7 +6,6 @@
 """
 
 from PyQt5.QtWidgets import QWidget
-from loguru import logger
 
 # 主样式表 - 适用于模糊背景
 BLUR_STYLE = """
@@ -113,14 +112,15 @@ QScrollBar::handle:vertical:hover {
 }
 """
 
-def apply_blur_style(widget: QWidget):
-    """
-    应用高斯模糊透明效果的样式到指定部件
-    
-    :param widget: 要应用样式的部件
-    """
-    try:
-        widget.setStyleSheet(BLUR_STYLE)
-        logger.info(f"已应用高斯模糊透明样式到 {widget.objectName() if widget.objectName() else type(widget).__name__}")
-    except Exception as e:
-        logger.error(f"应用高斯模糊透明样式时发生错误: {e}")
+def apply_blur_style(widget: QWidget) -> bool:
+        """
+        应用高斯模糊透明效果的样式到指定部件
+        
+        :param widget: 要应用样式的部件
+        :return: 操作是否成功
+        """
+        try:
+            widget.setStyleSheet(BLUR_STYLE)
+            return True
+        except Exception as e:
+            return False

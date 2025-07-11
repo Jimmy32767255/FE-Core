@@ -10,7 +10,6 @@ from PyQt5.QtCore import Qt
 from .custom_title_bar import CustomTitleBar
 from .background_effect import BackgroundEffect
 from .blur_style import apply_blur_style, BLUR_STYLE
-from loguru import logger
 
 
 class BlurredWindow(QMainWindow):
@@ -77,35 +76,33 @@ class BlurredWindow(QMainWindow):
         main_v_layout.addWidget(content_area)
         
         self.effect = BackgroundEffect(self) # 启用背景模糊效果
-        logger.info("窗口UI已初始化完成")
 
-    def set_blur_effect(self, enable: bool):
+    def set_blur_effect(self, enable: bool) -> bool:
         """
         启用或禁用窗口的模糊效果。
         :param enable: True 为启用，False 为禁用。
+        :return: 操作是否成功
         """
-        if enable:
-            self.effect.enable(True)
-            logger.info("窗口模糊效果已启用")
-        else:
-            self.effect.enable(False)
-            logger.info("窗口模糊效果已禁用")
+        return self.effect.enable(enable)
 
-    def set_window_title(self, title: str):
+    def set_window_title(self, title: str) -> None:
         """
         设置窗口的标题。
         :param title: 窗口的新标题。
         """
         self.title_bar.set_title(title)
-        logger.info(f"窗口标题已设置为: {title}")
 
-    def set_window_icon(self, icon_path: str):
+    def set_window_icon(self, icon_path: str) -> bool:
         """
         设置窗口的图标。
         :param icon_path: 图标文件的路径。
+        :return: 操作是否成功
         """
-        self.title_bar.set_icon(icon_path)
-        logger.info(f"窗口图标已设置为: {icon_path}")
+        try:
+            self.title_bar.set_icon(icon_path)
+            return True
+        except Exception as e:
+            return False
         
     def paintEvent(self, event):
         """
