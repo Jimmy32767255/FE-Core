@@ -17,7 +17,7 @@ cd fe_core
 pip install .
 ```
 
-或者，作为安装子模块：
+或者，作为子模块安装：
 
 ```bash
 git submodule add https://github.com/Jimmy32767255/FE-Core ./fe_core
@@ -56,9 +56,4 @@ window.show()
 
 ## 许可证
 
-本项目使用 MIT 许可证。详情请参阅 `LICENSE` 文件。
-
-## 许可证
-
-[MIT License](LICENSE)
-
+本项目使用 MIT 许可证，详情请参阅[MIT License](LICENSE)。
