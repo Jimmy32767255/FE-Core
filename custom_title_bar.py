@@ -75,7 +75,7 @@ class CustomTitleBar(QWidget):
         layout.addWidget(self.maximize_button)
 
         # 关闭按钮
-        self.close_button = QPushButton("×", self)
+        self.close_button = QPushButton("X", self)
         self.close_button.setFixedSize(30, 30)
         self.close_button.setStyleSheet("""
             QPushButton {
@@ -98,6 +98,8 @@ class CustomTitleBar(QWidget):
         :param title: 窗口标题
         """
         self.title_label.setText(title)
+        self.title_label.adjustSize()
+        self.update()
 
     def set_icon(self, icon_path: str) -> bool:
         """
@@ -106,8 +108,13 @@ class CustomTitleBar(QWidget):
         :return: 操作是否成功
         """
         try:
-            icon_pixmap = QIcon(icon_path).pixmap(QSize(16, 16))
+            icon = QIcon(icon_path)
+            if icon.isNull():
+                return False
+            icon_pixmap = icon.pixmap(QSize(16, 16))
             self.icon_label.setPixmap(icon_pixmap)
+            self.icon_label.setFixedSize(16, 16)
+            self.update()
             return True
         except Exception as e:
             return False

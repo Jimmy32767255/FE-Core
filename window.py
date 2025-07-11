@@ -7,6 +7,7 @@
 
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QLabel, QPushButton
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 from .custom_title_bar import CustomTitleBar
 from .background_effect import BackgroundEffect
 from .blur_style import apply_blur_style, BLUR_STYLE
@@ -91,6 +92,7 @@ class BlurredWindow(QMainWindow):
         :param title: 窗口的新标题。
         """
         self.title_bar.set_title(title)
+        self.setWindowTitle(title)
 
     def set_window_icon(self, icon_path: str) -> bool:
         """
@@ -99,16 +101,12 @@ class BlurredWindow(QMainWindow):
         :return: 操作是否成功
         """
         try:
-            self.title_bar.set_icon(icon_path)
-            return True
+            success = self.title_bar.set_icon(icon_path)
+            if success:
+                self.setWindowIcon(QIcon(icon_path))
+            return success
         except Exception as e:
             return False
-        
-    def paintEvent(self, event):
-        """
-        绘制窗口背景 - 简化版
-        """
-        pass # 最小化 paintEvent 的影响
         
     def set_blur_radius(self, radius: int):
         """
