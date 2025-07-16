@@ -57,3 +57,7 @@ window.show()
 ## 许可证
 
 本项目使用 MIT 许可证，详情请参阅[MIT License](LICENSE)。
+
+## 已知问题
+
+1. [FE-Core](https://github.com/Jimmy32767255/FE-Core)在Windows11 Insider Preview Canary上高斯模糊效果失效，这个是微软的问题我无法修复，正式版Windows11上没有此问题。

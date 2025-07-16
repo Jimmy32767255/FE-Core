@@ -13,10 +13,12 @@ class CustomTitleBar(QWidget):
     """
     自定义标题栏部件
     """
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, window_title="", window_icon_path=""):
         super().__init__(parent)
         self.parent_window = parent
         self.init_ui()
+        self.set_title(window_title)
+        self.set_icon(window_icon_path)
 
     def init_ui(self):
         """
