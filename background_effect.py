@@ -82,7 +82,18 @@ class BackgroundEffect:
                 error_code = ctypes.get_last_error()
                 return False
         except Exception as e:
+            # 捕获异常，例如函数不存在或调用失败
             return False
+
+    def remove_effect(self):
+        """
+        移除背景效果。
+        """
+        if hasattr(self, 'blur_effect_fallback') and self.blur_effect_fallback:
+            self.widget.setGraphicsEffect(None) # 移除 QGraphicsBlurEffect
+            self.blur_effect_fallback = None
+        # 尝试禁用原生模糊效果
+        self.enable(False)
 
     def set_blur_radius(self, radius: int): # Only relevant for QGraphicsBlurEffect fallback
         """
@@ -112,4 +123,4 @@ class BackgroundEffect:
                 return bool(SetWindowCompositionAttribute(self.hwnd, ctypes.pointer(data)))
             except Exception as e:
                 return False
-        return True
+            return True
