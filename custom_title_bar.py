@@ -24,75 +24,81 @@ class CustomTitleBar(QWidget):
         """
         初始化UI界面
         """
-        self.setFixedHeight(30)  # 设置标题栏高度
-        self.setStyleSheet("background-color: rgba(255, 255, 255, 0.01);")  # 设置背景颜色
+        self._setup_title_bar_properties()
+        layout = self._setup_layout()
+        self._add_icon_and_title(layout)
+        self._add_control_buttons(layout)
+        self._connect_buttons() # 添加按钮信号连接方法
 
+    def _connect_buttons(self):
+        """
+        连接控制按钮的信号到槽函数。
+        """
+        self.minimize_button.clicked.connect(self.minimize_window)
+        self.maximize_button.clicked.connect(self.maximize_restore_window)
+        self.close_button.clicked.connect(self.close_window)
+
+    def _setup_title_bar_properties(self):
+        """
+        设置标题栏的基本属性，如高度和样式。
+        """
+        self.setFixedHeight(30)
+        self.setStyleSheet("background-color: rgba(255, 255, 255, 0.01);")
+
+    def _setup_layout(self):
+        """
+        设置标题栏的布局。
+        """
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(5, 0, 5, 0) # 左，上，右，下
+        layout.setContentsMargins(5, 0, 5, 0)
         layout.setSpacing(0)
+        return layout
 
-        # 窗口图标
+    def _add_icon_and_title(self, layout):
+        """
+        添加窗口图标和标题标签到布局。
+        """
         self.icon_label = QLabel(self)
         layout.addWidget(self.icon_label)
         layout.addSpacing(5)
 
-        # 窗口标题
         self.title_label = QLabel("", self)
         self.title_label.setStyleSheet("color: #FFFFFF; font-size: 10pt; font-weight: bold;")
         layout.addWidget(self.title_label, alignment=Qt.AlignCenter)
-
         layout.addStretch()
 
-        # 最小化按钮
-        self.minimize_button = QPushButton("-", self)
-        self.minimize_button.setFixedSize(30, 30)
-        self.minimize_button.setStyleSheet("""
-            QPushButton {
-                border: none;
-                background-color: transparent;
-                font-size: 12pt;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: rgba(255, 255, 255, 0.01);
-            }
-        """)
-        self.minimize_button.clicked.connect(self.minimize_window)
+    def _add_control_buttons(self, layout):
+        """
+        添加最小化、最大化/还原和关闭按钮到布局。
+        """
+        self.minimize_button = self._create_button("-", self.minimize_window, "12pt", "bold")
         layout.addWidget(self.minimize_button)
 
-        # 最大化/还原按钮
-        self.maximize_button = QPushButton("□", self)
-        self.maximize_button.setFixedSize(30, 30)
-        self.maximize_button.setStyleSheet("""
-            QPushButton {
-                border: none;
-                background-color: transparent;
-                font-size: 10pt;
-            }
-            QPushButton:hover {
-                background-color: rgba(255, 255, 255, 0.01);
-            }
-        """)
-        self.maximize_button.clicked.connect(self.maximize_restore_window)
+        self.maximize_button = self._create_button("□", self.maximize_restore_window, "10pt")
         layout.addWidget(self.maximize_button)
 
-        # 关闭按钮
-        self.close_button = QPushButton("X", self)
-        self.close_button.setFixedSize(30, 30)
-        self.close_button.setStyleSheet("""
-            QPushButton {
+        self.close_button = self._create_button("X", self.close_window, "12pt", "bold", is_close_button=True)
+        layout.addWidget(self.close_button)
+
+    def _create_button(self, text, font_size, font_weight="normal", is_close_button=False):
+        """
+        创建并返回一个标准化的标题栏按钮。
+        """
+        button = QPushButton(text, self)
+        button.setFixedSize(30, 30)
+        style_sheet = f"""
+            QPushButton {{
                 border: none;
                 background-color: transparent;
-                font-size: 12pt;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #e74c3c;
-                color: white;
-            }
-        """)
-        self.close_button.clicked.connect(self.close_window)
-        layout.addWidget(self.close_button)
+                font-size: {font_size};
+                font-weight: {font_weight};
+            }}
+            QPushButton:hover {{
+                background-color: {'#e74c3c; color: white;' if is_close_button else 'rgba(255, 255, 255, 0.01);'}
+            }}
+        """
+        button.setStyleSheet(style_sheet)
+        return button
 
     def set_title(self, title: str) -> None:
         """

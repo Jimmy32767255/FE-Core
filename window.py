@@ -26,38 +26,64 @@ class BlurredWindow(QMainWindow):
         """
         初始化UI界面
         """
-        # 设置窗口属性
+        self._setup_window_properties()
+        self._create_title_bar()
+        self._setup_central_widget_and_layout()
+        self._setup_content_area()
+        self._initialize_background_effect()
+        self._connect_signals() # 添加信号连接方法
+
+    def _connect_signals(self):
+        """
+        连接UI元素的信号到槽函数。
+        """
+        # 示例：如果标题栏有最小化、最大化、关闭按钮，可以在这里连接它们的信号
+        # self.title_bar.minimize_button.clicked.connect(self.showMinimized)
+        # self.title_bar.maximize_button.clicked.connect(self.toggle_maximize)
+        # self.title_bar.close_button.clicked.connect(self.close)
+        pass
+
+    def _setup_window_properties(self):
+        """
+        设置窗口的基本属性。
+        """
         self.setWindowFlags(Qt.FramelessWindowHint)  # 无边框窗口
         self.setAttribute(Qt.WA_TranslucentBackground, True)  # 启用透明背景
         self.setFixedSize(800, 500)  # 固定窗口大小
-        apply_blur_style(self) # 应用模糊样式
-        
-        # 创建自定义标题栏
+        apply_blur_style(self)  # 应用模糊样式
+
+    def _create_title_bar(self):
+        """
+        创建并设置自定义标题栏。
+        """
         self.title_bar = CustomTitleBar(self)
         self.title_bar.set_title("Demo")
 
-        # 创建中央部件
+    def _setup_central_widget_and_layout(self):
+        """
+        创建中央部件和主布局，并将标题栏添加到主布局。
+        """
         central_widget = QWidget(self)
         self.setCentralWidget(central_widget)
-        
-        # 主布局 (用于中央部件)
+
         main_v_layout = QVBoxLayout(central_widget)
         main_v_layout.setContentsMargins(0, 0, 0, 0)
         main_v_layout.setSpacing(0)
-        
         main_v_layout.addWidget(self.title_bar)
+        self.main_v_layout = main_v_layout # 保存引用以便后续添加内容区域
 
-        # 内容区域部件
+    def _setup_content_area(self):
+        """
+        创建内容区域部件和布局，并添加标签和按钮。
+        """
         content_area = QWidget()
         content_layout = QVBoxLayout(content_area)
         content_layout.setContentsMargins(20, 20, 20, 20)
-        
-        # 添加标签到内容布局
+
         version_label = QLabel("Test")
         version_label.setStyleSheet("color: #FFFFFF; font-size: 24px; font-weight: bold;")
         content_layout.addWidget(version_label, alignment=Qt.AlignBottom | Qt.AlignLeft)
-        
-        # 添加按钮到内容布局
+
         start_button = QPushButton("Test")
         start_button.setStyleSheet("""
             QPushButton {
@@ -73,10 +99,14 @@ class BlurredWindow(QMainWindow):
             }
         """)
         content_layout.addWidget(start_button, alignment=Qt.AlignBottom | Qt.AlignRight)
-        
-        main_v_layout.addWidget(content_area)
-        
-        self.effect = BackgroundEffect(self) # 启用背景模糊效果
+
+        self.main_v_layout.addWidget(content_area)
+
+    def _initialize_background_effect(self):
+        """
+        初始化背景模糊效果。
+        """
+        self.effect = BackgroundEffect(self)  # 启用背景模糊效果
 
     def set_blur_effect(self, enable: bool) -> bool:
         """
