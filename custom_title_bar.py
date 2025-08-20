@@ -74,18 +74,19 @@ class CustomTitleBar(QWidget):
         self.minimize_button = self._create_button("-", self.minimize_window, "12pt", "bold")
         layout.addWidget(self.minimize_button)
 
-        self.maximize_button = self._create_button("□", self.maximize_restore_window, "10pt")
+        self.maximize_button = self._create_button("□", self.maximize_restore_window, "10pt", font_weight="normal")
         layout.addWidget(self.maximize_button)
 
         self.close_button = self._create_button("X", self.close_window, "12pt", "bold", is_close_button=True)
         layout.addWidget(self.close_button)
 
-    def _create_button(self, text, font_size, font_weight="normal", is_close_button=False):
+    def _create_button(self, text, slot, font_size, font_weight="normal", is_close_button=False):
         """
         创建并返回一个标准化的标题栏按钮。
         """
         button = QPushButton(text, self)
         button.setFixedSize(30, 30)
+        button.clicked.connect(slot)
         style_sheet = f"""
             QPushButton {{
                 border: none;
